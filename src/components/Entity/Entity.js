@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { observer } from "mobx-react";
-import { Badge, Form, Input } from "antd";
+import { Badge, Checkbox, Form, Input } from "antd";
 import { CompressOutlined, DeleteOutlined, LinkOutlined, PlusOutlined } from "@ant-design/icons";
 import { Typography } from "antd";
 
@@ -63,6 +63,15 @@ export default observer(({ store, annotation }) => {
   const entityButtons = [];
   const hasEditableNodes = !!nodes.find(node => node.editable);
   const hasEditableRegions = !!nodes.find(node => node.editable && !node.classification);
+
+  const metaOptions = [
+    { label: 'truncated', value: 'truncated' },
+    { label: 'difficult', value: 'difficult' },
+    { label: 'occluded', value: 'occluded' },
+  ];
+  const handleMeta = (value) => {
+    node.setNormInput(String(value));
+  };
 
   if (hasEditableRegions) {
     entityButtons.push(
@@ -198,6 +207,7 @@ export default observer(({ store, annotation }) => {
             setEditMode(false);
           }}
         >
+          <Checkbox.Group options={metaOptions} onChange={handleMeta} />
           <Input
             autoFocus
             onChange={ev => {
