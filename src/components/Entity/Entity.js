@@ -147,6 +147,7 @@ export default observer(({ store, annotation }) => {
         {node?.meta?.text && (
           <Text>
             Meta: <Text code>{node.meta.text}</Text>
+            {node.meta.id !== undefined && (<>Meta ID: <Text code>{node.meta.id}</Text></>)}
             &nbsp;
             <DeleteOutlined
               type="delete"
@@ -204,6 +205,7 @@ export default observer(({ store, annotation }) => {
           style={{ marginTop: "0.5em", marginBottom: "0.5em" }}
           onFinish={() => {
             node.setMetaInfo(node.normInput);
+            node.setMetaId(node.idInput);
             setEditMode(false);
           }}
         >
@@ -213,7 +215,8 @@ export default observer(({ store, annotation }) => {
             onChange={ev => {
               const { value } = ev.target;
 
-              node.setNormInput(value);
+              // node.setNormInput(value);
+              node.setIdInput(value);
             }}
             style={{ marginBottom: "0.5em" }}
             placeholder="Meta Information"

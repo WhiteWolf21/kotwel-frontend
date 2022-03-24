@@ -9,6 +9,7 @@ const NormalizationMixin = types
   .model({
     meta: types.frozen({}),
     normInput: types.maybeNull(types.string),
+    idInput: types.maybeNull(types.string),
   })
   .actions(self => ({
     /**
@@ -20,9 +21,18 @@ const NormalizationMixin = types
         self.meta = { ...self.meta, text: [val] };
       } else {
         const adjusted = { ...self.meta };
+        // delete adjusted.text;
+        // self.meta = adjusted;
+      }
+    },
 
-        delete adjusted.text;
-        self.meta = adjusted;
+    /**
+     * Set meta id
+     * @param {*} val
+     */
+    setMetaId(val) {
+      if (val) {
+        self.meta = { ...self.meta, id: val };
       }
     },
 
@@ -30,11 +40,20 @@ const NormalizationMixin = types
      * Delete meta text
      */
     deleteMetaInfo() {
-      self.setMetaInfo("");
+      // self.setMetaInfo("");
+      const adjusted = { ...self.meta };
+      
+      delete adjusted.text;
+      delete adjusted.id;
+      self.meta = adjusted;
     },
 
     setNormInput(val) {
       self.normInput = val;
+    },
+
+    setIdInput(val) {
+      self.idInput = val;
     },
   }));
 
